@@ -1,40 +1,16 @@
 public class Pion {
-    
-    private int couleur;
-    private int colonne;
-    private int ligne;
-    
-    public Pion(int couleur, int colonne, int ligne) {
-        this.couleur = couleur;
-        this.colonne = colonne;
-        this.ligne = ligne;
+
+    private Joueur Joueur;
+
+    public Pion(Joueur joueur) {
+        Joueur = joueur;
     }
-    
-    public int getCouleur() {
-        return couleur;
+    public Joueur getJoueur() {
+        return Joueur;
     }
-    
-    public void setCouleur(int couleur) {
-        this.couleur = couleur;
+
+    public void setJoueur(Joueur joueur) {
+        Joueur = joueur;
     }
-    
-    public int getColonne() {
-        return colonne;
-    }
-    
-    public void setColonne(int colonne) {
-        this.colonne = colonne;
-    }
-    
-    public int getLigne() {
-        return ligne;
-    }
-    
-    public void setLigne(int ligne) {
-        this.ligne = ligne;
-    }
-    
-    public void afficherPion() {
-        System.out.println("Le pion est de couleur " + this.couleur + " et se trouve en colonne " + this.colonne + " et en ligne " + this.ligne);
-    }
+
 }
