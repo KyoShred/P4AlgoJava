@@ -1,7 +1,5 @@
 public class Joueur {
-
-    // Attributs de la classe Joueur (nom, couleur, symbole) initialisés dans le constructeur
-
+    // Attributs de la classe Joueur (nom, couleur, symbole) 
     private String nom;
     private int couleur;
     private String symbole;
@@ -13,28 +11,21 @@ public class Joueur {
         this.symbole = symbole;
     }
     public String getNom() {
-        return nom;
+        return nom; // getter
     }
     public void setNom(String nom) {
-        this.nom = nom;
+        this.nom = nom; // setter
     }
     public int getCouleur() {
-        return couleur;
+        return couleur; // getter
     }
     public void setCouleur(int couleur) {
-        this.couleur = couleur;
+        this.couleur = couleur; // setter
     }
     public String getSymbole() {
-        return symbole;
+        return symbole; // getter
     }
     public void setSymbole(String symbole) {
-        this.symbole = symbole;
+        this.symbole = symbole; // setter
     }
-    public void afficherJoueur() {
-        System.out.println("Le joueur " + this.nom + " est de couleur " + this.couleur + " et son symbole est " + this.symbole);
-    }
-    public String toString() {
-        return "Joueur{" + "nom=" + nom + ", couleur=" + couleur + ", symbole=" + symbole + '}';
-    }
-
 }
