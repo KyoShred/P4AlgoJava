@@ -1,3 +1,6 @@
+package class;
+
+
 public class Joueur {
     // Attributs de la classe Joueur (nom, couleur, symbole) 
     private String nom;
@@ -11,21 +14,21 @@ public class Joueur {
         this.symbole = symbole;
     }
     public String getNom() {
-        return nom; // getter
+        return nom; // getter nom de la classe Joueur
     }
     public void setNom(String nom) {
-        this.nom = nom; // setter
+        this.nom = nom; // setter nom de la classe Joueur
     }
     public int getCouleur() {
-        return couleur; // getter
+        return couleur; // getter couleur de la classe Joueur
     }
     public void setCouleur(int couleur) {
-        this.couleur = couleur; // setter
+        this.couleur = couleur; // setter couleur de la classe Joueur
     }
     public String getSymbole() {
-        return symbole; // getter
+        return symbole; // getter symbole de la classe Joueur
     }
     public void setSymbole(String symbole) {
-        this.symbole = symbole; // setter
+        this.symbole = symbole; // setter symbole de la classe Joueur
     }
 }

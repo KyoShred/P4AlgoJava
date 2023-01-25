@@ -5,7 +5,7 @@ public class Pion {
     public Pion(Joueur joueur) {
         Joueur = joueur; // constructeur
     }
-    public Joueur getJoueur() {
+    public Joueur getJoueur() {&
         return Joueur; // getter
     }
 

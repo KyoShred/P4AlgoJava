@@ -1,4 +1,5 @@
 import java.util.Scanner;
+import class.Score;
 
 public class App {
     public static void main(String[] args) throws Exception {
