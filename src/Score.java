@@ -28,18 +28,21 @@ public class Score{
     public void setScore (int score) {
         this.score = score;
     }
+    // méthode pour afficher le score
+    @Override
+    public String toString() {
+        return "Score [joueur=" + joueur + ", score=" + score + "]";
+    }
 
-    public void afficherScoreCSV() {
+    // méthode pour enregistrer le score dans un fichier texte csv
+    public void saveScore() {
         try {
-            //Création ou ajout à un fichier CSV pour enregistrer le score du joueur
-            FileWriter fw = new FileWriter("fichier.csv", true);
+            FileWriter fw = new FileWriter("score.csv", true);
             BufferedWriter bw = new BufferedWriter(fw);
-            bw.write(String.valueOf(this.score));
-            //Ajout d'une nouvelle ligne pour chaque entrée de score
+            bw.write(joueur.getNom() + "," + score);
             bw.newLine();
             bw.close();
         } catch (IOException e) {
-            //Affichage d'un message d'erreur et fermeture du programme en cas d'exception lors de l'écriture dans le fichier
             e.printStackTrace();
             System.out.println("Erreur lors de l'écriture du fichier");
             System.exit(0);
@@ -48,5 +51,6 @@ public class Score{
         System.out.println("Le score du joueur " + this.joueur + " est de " + this.score);
         System.exit(0);
     }
-    
+
 }
+
