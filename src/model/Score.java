@@ -1,4 +1,4 @@
-package class;
+package model;
 
 import java.io.FileWriter;
 import java.io.IOException;
@@ -47,11 +47,24 @@ public class Score{
         } catch (IOException e) {
             e.printStackTrace();
             System.out.println("Erreur lors de l'écriture du fichier");
-            System.exit(0);
         }
         //Affichage du score du joueur à l'écran et fermeture du programme
         System.out.println("Le score du joueur " + this.joueur + " est de " + this.score);
-        System.exit(0);
+    }
+
+    // méthode pour efffacer tout les score dans le fichier texte csv
+
+    public void deleteScore() {
+        try {
+            FileWriter fw = new FileWriter("score.csv", false);
+            BufferedWriter bw = new BufferedWriter(fw);
+            bw.write("");
+            bw.newLine();
+            bw.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.out.println("Erreur lors de l'écriture du fichier");
+        }
     }
 
 }

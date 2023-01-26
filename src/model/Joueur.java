@@ -1,5 +1,4 @@
-package class;
-
+package model;
 
 public class Joueur {
     // Attributs de la classe Joueur (nom, couleur, symbole) 
