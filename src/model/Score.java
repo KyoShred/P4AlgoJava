@@ -63,7 +63,7 @@ public class Score{
             bw.close();
         } catch (IOException e) {
             e.printStackTrace();
-            System.out.println("Erreur lors de l'écriture du fichier");
+            System.out.println("Erreur lorsque tu effaces le fichier");
         }
     }
 

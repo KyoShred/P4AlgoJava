@@ -13,7 +13,7 @@ public class Joueur {
         this.symbole = symbole;
     }
     public String getNom() {
-        return nom; // getter nom de la classe Joueur
+        return nom; // getter nom de la classeé Joueur
     }
     public void setNom(String nom) {
         this.nom = nom; // setter nom de la classe Joueur
