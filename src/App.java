@@ -160,7 +160,6 @@ public class App {
             numberOfCheck =0;
             nombreALaSuite =1;
 
-
         }
 
 
@@ -184,7 +183,7 @@ public class App {
 
         
         // String diagHautGauche = lignes[recupligne-1][colonneJoueur1-1];
-        // String diagHautDroite = lignes[recupligne-1][colonneJoueur1+1];
+        
 
 
         // String midGauche = lignes[recupligne][colonneJoueur1-1];
