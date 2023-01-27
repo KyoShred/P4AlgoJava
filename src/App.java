@@ -1,12 +1,14 @@
 import java.util.Scanner;
 import java.util.Arrays;
+
 import model.Joueur;
 import model.Joueur2;
 
 public class App {
 
     private static Scanner scanner = new Scanner(System.in);
-
+    private static boolean SinglePlayer = false;
+    private static boolean multiplayer = false;
     public static void main(String[] args) throws Exception {
 
         int userchoice;
@@ -16,10 +18,11 @@ public class App {
             switch (userchoice) {
                 case 1:
                     singleplayerMenu(args);
+                    SinglePlayer = true;
                     break;
                 case 2:
                     multiplayerMenu(args);
-
+                    multiplayer = true;
                     break;
                 case 3:
                     System.out.println("display");
@@ -27,7 +30,7 @@ public class App {
                     break;
                 case 4:
                     System.out.println("Exiting...");
-                    break;
+                    return;
                 default:
                     System.out.println("Invalid Input");
 
@@ -91,7 +94,7 @@ public class App {
             }
         }
     }
-
+    
     public static void multiplayerMenu(String[] args)throws Exception{
         System.out.println("---Multiplayer---");
         //joueur 1
@@ -176,18 +179,26 @@ public class App {
                     // Rajout joueur 2 plus modif tout en bas de colonneJoueur1 en nombreEnti
                     // changer les valeurs;
                     System.out.print("Joueur 2, Entrez une valeur : ");
-                    if (scanner.hasNextInt()) {
-                        int colonneJoueur2 = scanner.nextInt();
-                        if (colonneJoueur2 < 1 || colonneJoueur2 > 7) {
-                            System.out.println("Entre un chiffre entre 1 et 7");
+                    if (SinglePlayer){
+                        IA1.
+                        int colonneJoueur2 = Ai
+                        joueur2(lignes, colonneJoueur2, recupligne);
+                        execTab(ligneSuperStarStart,ligne1,ligne2,ligne3,ligne4,ligne5,ligne6,ligneSuperEnd);
+                        break;
+                    }else{
+                        if (scanner.hasNextInt()) {
+                            int colonneJoueur2 = scanner.nextInt();
+                            if (colonneJoueur2 < 1 || colonneJoueur2 > 7) {
+                                System.out.println("Entre un chiffre entre 1 et 7");
+                            } else {
+                                joueur2(lignes, colonneJoueur2, recupligne);
+                                execTab(ligneSuperStarStart,ligne1,ligne2,ligne3,ligne4,ligne5,ligne6,ligneSuperEnd);
+                                break;
+                            }
                         } else {
-                            joueur2(lignes, colonneJoueur2, recupligne);
-                            execTab(ligneSuperStarStart,ligne1,ligne2,ligne3,ligne4,ligne5,ligne6,ligneSuperEnd);
-                            break;
+                            System.out.println("Entre un chiffre valide : ");
+                            scanner.next();
                         }
-                    } else {
-                        System.out.println("Entre un chiffre valide : ");
-                        scanner.next();
                     }
                 }
             }
@@ -210,7 +221,7 @@ public class App {
         for (int i = 6; i >= 0; i--) {
             if (lignes[i][colonneJoueur1] == " " && lignes[i][colonneJoueur1] != "@"
                     && lignes[i][colonneJoueur1] != "=") {
-                lignes[i][colonneJoueur1] = "@";
+                lignes[i][colonneJoueur1] = Joueur.getSymboleCouleur();
                 recupligne = i;
                 detectWin1(lignes, colonneJoueur1, recupligne);
                 break;
@@ -222,7 +233,11 @@ public class App {
         for (int a = 6; a > 0; a--) {
             if (lignes[a][colonneJoueur2] == " " && lignes[a][colonneJoueur2] != "@"
                     && lignes[a][colonneJoueur2] != "=") {
-                lignes[a][colonneJoueur2] = "=";
+                        if (multiplayer){
+                            lignes[a][colonneJoueur2] = Joueur2.getSymboleCouleur();
+                        }else {
+                            lignes[a][colonneJoueur2] = "=";
+                        }
                 recupligne = a;
                 detectWin2(lignes, colonneJoueur2, recupligne);
                 break;
@@ -243,7 +258,7 @@ public class App {
         String badMid = lignes[recupligne+1][colonneJoueur1];
         String diagBasDroite = lignes[recupligne+1][colonneJoueur1+1];
         //bas gauche
-        if(recupligne >3 && colonneJoueur1 <=4){
+        if(recupligne > 3 && colonneJoueur1 < 4){
             numberOfCheck =0;
             nombreALaSuite =1;
             for(int v = 0;v<3;v++){
@@ -252,7 +267,7 @@ public class App {
                     // System.out.println(midDroite);
                     if(nombreALaSuite == 4){
                         System.out.println("Vous avez gagné!");
-                        break;
+                        return;
                     }
                     numberOfCheck++;
                 }
@@ -265,7 +280,7 @@ public class App {
                     System.out.println(diagHautDroite);
                     if(nombreALaSuite == 4){
                         System.out.println("Vous avez gagné!");
-                        break;
+                        return;
                     }
                     numberOfCheck++;
                 }
@@ -274,7 +289,7 @@ public class App {
             nombreALaSuite =1;
         }
         //bas droit
-        if(recupligne > 3 && colonneJoueur1 >= 3){
+        if(recupligne > 3 && colonneJoueur1 > 2){
             numberOfCheck =0;
             nombreALaSuite =1;
             for(int v = 0;v<3;v++){
@@ -283,7 +298,7 @@ public class App {
                     System.out.println(midGauche);
                     if(nombreALaSuite == 4){
                         System.out.println("Vous avez gagné!");
-                        break;
+                        return;
                     }
                     numberOfCheck++;
                 }
@@ -296,14 +311,14 @@ public class App {
                     System.out.println(diagHautGauche);
                     if(nombreALaSuite == 4){
                         System.out.println("Vous avez gagné!");
-                        break;
+                        return;
                     }
                     numberOfCheck++;
                 }
             }
         }
         //haut droit
-        if(recupligne < 4 && colonneJoueur1 < 3){
+        if(recupligne < 4 && colonneJoueur1 > 2){
             numberOfCheck =0;
             nombreALaSuite =1;
             for(int v = 0;v<3;v++){
@@ -312,7 +327,7 @@ public class App {
                     System.out.println(midGauche);
                     if(nombreALaSuite == 4){
                         System.out.println("Vous avez gagné!");
-                        break;
+                        return;
                     }
                     numberOfCheck++;
                 }
@@ -325,7 +340,7 @@ public class App {
                     System.out.println(diagBasGauche);
                     if(nombreALaSuite == 4){
                         System.out.println("Vous avez gagné!");
-                        break;
+                        return;
                     }
                     numberOfCheck++;
                 }
@@ -338,14 +353,14 @@ public class App {
                     System.out.println(badMid);
                     if(nombreALaSuite == 4){
                         System.out.println("Vous avez gagné!");
-                        break;
+                        return;
                     }
                     numberOfCheck++;
                 }
             }
         }
         //haut gauche
-        if(recupligne < 4){
+        if(recupligne < 4 && colonneJoueur1 < 4){
             numberOfCheck =0;
             nombreALaSuite =1;
             for(int v = 0;v<3;v++){
@@ -354,13 +369,13 @@ public class App {
                     // System.out.println(midDroite);
                     if(nombreALaSuite == 4){
                         System.out.println("Vous avez gagné!");
-                        break;
+                        return;
                     }else {
                         if (nombreALaSuite == 3){
                             System.out.println("bot saved");
                             // recupere nombrealasuite = 3, recupligne si supérieur a 1 donc save et colonnejoueur (centre du triple) just check +2 ou -2 selon la position
                             
-                            break;
+                            return;
                         }
                         
                     }
@@ -375,7 +390,7 @@ public class App {
                     System.out.println(badMid);
                     if(nombreALaSuite == 4){
                         System.out.println("Vous avez gagné!");
-                        break;
+                        return;
                     }
                     numberOfCheck++;
                 }
@@ -388,7 +403,7 @@ public class App {
                     System.out.println(diagBasDroite);
                     if(nombreALaSuite == 4){
                         System.out.println("Vous avez gagné!");
-                        break;
+                        return;
                     }
                     numberOfCheck++;
                 }
@@ -407,7 +422,7 @@ public class App {
         String badMid = lignes[recupligne+1][colonneJoueur2];
         String diagBasDroite = lignes[recupligne+1][colonneJoueur2+1];
         //bas gauche
-        if(recupligne >3 && colonneJoueur2 <=4){
+        if(recupligne > 3 && colonneJoueur2 < 4){
             numberOfCheck =0;
             nombreALaSuite =1;
             for(int v = 0;v<3;v++){
@@ -438,7 +453,7 @@ public class App {
             nombreALaSuite =1;
         }
         //bas droit
-        if(recupligne > 3 && colonneJoueur2 >= 3){
+        if(recupligne > 3 && colonneJoueur2 > 2){
             numberOfCheck =0;
             nombreALaSuite =1;
             for(int v = 0;v<3;v++){
@@ -467,7 +482,7 @@ public class App {
             }
         }
         //haut droit
-        if(recupligne < 4 && colonneJoueur2 < 3){
+        if(recupligne < 4 && colonneJoueur2 > 2){
             numberOfCheck =0;
             nombreALaSuite =1;
             for(int v = 0;v<3;v++){
@@ -509,7 +524,7 @@ public class App {
             }
         }
         //haut gauche
-        if(recupligne < 4){
+        if(recupligne < 4 && colonneJoueur2 < 4){
             numberOfCheck =0;
             nombreALaSuite =1;
             for(int v = 0;v<3;v++){

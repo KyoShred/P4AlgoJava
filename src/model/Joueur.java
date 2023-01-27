@@ -5,6 +5,7 @@ public class Joueur {
     private String nom;
     private String couleur;
     private String symbole;
+    private static String joueurColorSymb;
 
     // Constructeur de la classe Joueur
     public Joueur(String nom, String couleur, String symbole) {
@@ -30,25 +31,33 @@ public class Joueur {
     public void setSymbole(String symbole) {
         this.symbole = symbole; // setter symbole de la classe Joueur
     }
-    public void SymboleCouleur(String Symbole) {
+    public void setSymboleCouleur(String Symbole) {
         String symbole = this.getSymbole();
         String couleur = this.getCouleur();
-    
-        if (couleur.equals("Rouge")) {
-            String joueurColorSymb = "\033[31m" + symbole + "\033[0m";
-        } else if (couleur.equals("Vert")) {
-            String joueurColorSymb = "\033[32m" + symbole + "\033[0m";
-        } else if (couleur.equals("Jaune")) {
-            String joueurColorSymb = "\033[33m" + symbole + "\033[0m";
-        } else if (couleur.equals("Bleu")) {
-            String joueurColorSymb = "\033[34m" + symbole + "\033[0m";
-        } else if (couleur.equals("Violet")) {
-            String joueurColorSymb = "\033[35m" + symbole + "\033[0m";
-        } else if (couleur.equals("Cyan")) {
-            String joueurColorSymb = "\033[36m" + symbole + "\033[0m";
+        int color = Integer.parseInt(couleur);
+        switch (color){
+            case 1:
+            Joueur.joueurColorSymb = "\033[31m" + symbole + "\033[0m";
+                break;
+            case 2:
+            Joueur.joueurColorSymb = "\033[32m" + symbole + "\033[0m";
+                break;
+            case 3:
+            Joueur.joueurColorSymb = "\033[33m" + symbole + "\033[0m";
+                break;
+            case 4:
+            Joueur.joueurColorSymb = "\033[34m" + symbole + "\033[0m";
+                break;
+            case 5:
+            Joueur.joueurColorSymb = "\033[35m" + symbole + "\033[0m";
+                break;
+            case 6:
+            Joueur.joueurColorSymb = "\033[36m" + symbole + "\033[0m";
+                break;
+            
         }
     }
-    public String getSymboleCouleur () {
+    public static String getSymboleCouleur () {
         return joueurColorSymb;
     }
 }
