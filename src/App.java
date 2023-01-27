@@ -1,5 +1,7 @@
 import java.util.Scanner;
 import java.util.Arrays;
+import java.util.Random;
+
 import model.Joueur;
 import model.Joueur2;
 import model.IA1;
@@ -17,12 +19,12 @@ public class App {
             userchoice = getMenuChoice();
             switch (userchoice) {
                 case 1:
-                    singleplayerMenu(args);
                     SinglePlayer = true;
+                    singleplayerMenu(args);
                     break;
                 case 2:
-                    multiplayerMenu(args);
                     multiplayer = true;
+                    multiplayerMenu(args);
                     break;
                 case 3:
                     System.out.println("display");
@@ -138,7 +140,10 @@ public class App {
     public static void closeScanner(Scanner scanner) {
         scanner.close();
     }
-
+    public static int ia1() {
+        Random random = new Random();
+        return random.nextInt(7) + 1;
+    }
     public static void grid(String[] args) throws Exception {
 
         String[] ligneSuperStarStart =  {"*","*","*","*","*","*","*","*","*"};
@@ -175,17 +180,17 @@ public class App {
                         scanner.next();
                     }
                 }
-                while (true) {
+                
                     // Rajout joueur 2 plus modif tout en bas de colonneJoueur1 en nombreEnti
                     // changer les valeurs;
-                    System.out.print("Joueur 2, Entrez une valeur : ");
-                    if (SinglePlayer){
-                        IA1.
-                        int colonneJoueur2 = Ai
+                    if (SinglePlayer == true){
+                        int colonneJoueur2 = ia1();
                         joueur2(lignes, colonneJoueur2, recupligne);
                         execTab(ligneSuperStarStart,ligne1,ligne2,ligne3,ligne4,ligne5,ligne6,ligneSuperEnd);
                         break;
                     }else{
+                        while (true) {
+                        System.out.print("Joueur 2, Entrez une valeur : ");
                         if (scanner.hasNextInt()) {
                             int colonneJoueur2 = scanner.nextInt();
                             if (colonneJoueur2 < 1 || colonneJoueur2 > 7) {
@@ -221,9 +226,10 @@ public class App {
         for (int i = 6; i >= 0; i--) {
             if (lignes[i][colonneJoueur1] == " " && lignes[i][colonneJoueur1] != "@"
                     && lignes[i][colonneJoueur1] != "=") {
-                lignes[i][colonneJoueur1] = Joueur.getSymboleCouleur();
+                lignes[i][colonneJoueur1] = "\033[31m"+Joueur.getSymbole()+"\033[0m";
                 recupligne = i;
-                detectWin1(lignes, colonneJoueur1, recupligne);
+                int playercolumn = colonneJoueur1;
+                detectWin1(lignes, playercolumn, recupligne);
                 break;
             }
         }
@@ -233,32 +239,33 @@ public class App {
         for (int a = 6; a > 0; a--) {
             if (lignes[a][colonneJoueur2] == " " && lignes[a][colonneJoueur2] != "@"
                     && lignes[a][colonneJoueur2] != "=") {
-                        if (multiplayer){
-                            lignes[a][colonneJoueur2] = Joueur2.getSymboleCouleur();
+                        if (multiplayer == true){
+                            lignes[a][colonneJoueur2] = "\033[33m"+Joueur2.getSymboleCouleur()+"\033[0m";
                         }else {
-                            lignes[a][colonneJoueur2] = "=";
+                            lignes[a][colonneJoueur2] = "\033[33m=\033[0m";
                         }
                 recupligne = a;
-                detectWin2(lignes, colonneJoueur2, recupligne);
+                int playercolumn = colonneJoueur2;
+                detectWin1(lignes, playercolumn, recupligne);
                 break;
             }
         }
     }
 //--------------------------------------
 
-    public static void detectWin1(String[][]lignes, int colonneJoueur1,int recupligne)throws Exception{
-        String symbole = lignes[recupligne][colonneJoueur1];
+    public static void detectWin1(String[][]lignes, int playercolumn,int recupligne)throws Exception{
+        String symbole = lignes[recupligne][playercolumn];
         int numberOfCheck =0;
         int nombreALaSuite =1;
-        String midDroite = lignes[recupligne][colonneJoueur1+1+(numberOfCheck)];
-        String diagHautDroite = lignes[recupligne-1+(-numberOfCheck)][colonneJoueur1+1+(numberOfCheck)];
-        String diagHautGauche = lignes[recupligne-1][colonneJoueur1-1];
-        String midGauche = lignes[recupligne][colonneJoueur1-1];
-        String diagBasGauche = lignes[recupligne+1][colonneJoueur1-1];
-        String badMid = lignes[recupligne+1][colonneJoueur1];
-        String diagBasDroite = lignes[recupligne+1][colonneJoueur1+1];
+        String midDroite = lignes[recupligne][playercolumn+1+(numberOfCheck)];
+        String diagHautDroite = lignes[recupligne-1+(-numberOfCheck)][playercolumn+1+(numberOfCheck)];
+        String diagHautGauche = lignes[recupligne-1][playercolumn-1];
+        String midGauche = lignes[recupligne][playercolumn-1];
+        String diagBasGauche = lignes[recupligne+1][playercolumn-1];
+        String badMid = lignes[recupligne+1][playercolumn];
+        String diagBasDroite = lignes[recupligne+1][playercolumn+1];
         //bas gauche
-        if(recupligne > 3 && colonneJoueur1 < 4){
+        if(recupligne > 3 && playercolumn < 4){
             numberOfCheck =0;
             nombreALaSuite =1;
             for(int v = 0;v<3;v++){
@@ -289,7 +296,7 @@ public class App {
             nombreALaSuite =1;
         }
         //bas droit
-        if(recupligne > 3 && colonneJoueur1 > 2){
+        if(recupligne > 3 && playercolumn > 2){
             numberOfCheck =0;
             nombreALaSuite =1;
             for(int v = 0;v<3;v++){
@@ -318,7 +325,7 @@ public class App {
             }
         }
         //haut droit
-        if(recupligne < 4 && colonneJoueur1 > 2){
+        if(recupligne < 4 && playercolumn > 2){
             numberOfCheck =0;
             nombreALaSuite =1;
             for(int v = 0;v<3;v++){
@@ -360,7 +367,7 @@ public class App {
             }
         }
         //haut gauche
-        if(recupligne < 4 && colonneJoueur1 < 4){
+        if(recupligne < 4 && playercolumn < 4){
             numberOfCheck =0;
             nombreALaSuite =1;
             for(int v = 0;v<3;v++){

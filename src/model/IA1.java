@@ -9,7 +9,7 @@ public class IA1 {
     }
 
     }
-    public int getIa1(){
+    public static int getIa1(){
         return iaPlay;
     }
 }

@@ -4,7 +4,7 @@ public class Joueur {
     // Attributs de la classe Joueur (nom, couleur, symbole) 
     private String nom;
     private String couleur;
-    private String symbole;
+    private static String symbole;
     private static String joueurColorSymb;
 
     // Constructeur de la classe Joueur
@@ -25,15 +25,15 @@ public class Joueur {
     public void setCouleur(String couleur) {
         this.couleur = couleur; // setter couleur de la classe Joueur
     }
-    public String getSymbole() {
+    public static String getSymbole() {
         return symbole; // getter symbole de la classe Joueur
     }
     public void setSymbole(String symbole) {
-        this.symbole = symbole; // setter symbole de la classe Joueur
+        Joueur.symbole = symbole; // setter symbole de la classe Joueur
     }
     public void setSymboleCouleur(String Symbole) {
         String symbole = this.getSymbole();
-        String couleur = this.getCouleur();
+        String couleur = couleur;
         int color = Integer.parseInt(couleur);
         switch (color){
             case 1:
