@@ -1,8 +1,8 @@
 import java.util.Scanner;
 import java.util.Arrays;
-
 import model.Joueur;
 import model.Joueur2;
+import model.IA1;
 
 public class App {
 
