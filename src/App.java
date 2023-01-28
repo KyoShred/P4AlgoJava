@@ -8,6 +8,8 @@ public class App{
     public static String[][] grid = createGrid();
     private static boolean SinglePlayer = false;
     private static boolean multiplayer = false;
+    public static Joueur player = new Joueur("Joueur 1", "1", "@");
+    public static Joueur2 player2 = new Joueur2("Joueur 2", "3", "=");
 
     public static void main(String[] args) throws Exception{
         mainMenu(args);
@@ -78,27 +80,24 @@ public class App{
             System.out.println("Choisis un symbole :");
             if (scanner.hasNextLine()) {
                 String logo = scanner.nextLine();
-                Joueur player = new Joueur(nom, color, logo);
+                player = new Joueur(nom, color, logo);
                 System.out.println("1- Niveau 1");
                 System.out.println("2- Niveau 2");
                 System.out.println("3- Niveau 3");
                 System.out.println("4- Niveau 4");
-                System.out.println(joueur.getNom() + ", Choisis le niveau de difficulté");
+                System.out.println(player.getNom() + ", Choisis le niveau de difficulté");
                 while(true){
                     if (scanner.hasNextInt()) {
                         int difficultyLvl = scanner.nextInt();
                         switch (difficultyLvl) {
                             case 1:
-                            displayGrid(grid);
+                                
                                 break;
                             case 2:
-                            displayGrid(grid);
                                 break;
                             case 3:
-                            displayGrid(grid);
                                 break;
                             case 4:
-                            displayGrid(grid);
                                 return;
                         }
                     } else {
@@ -110,7 +109,7 @@ public class App{
         }
     }
 
-    public static void multiplayerMenu(String[] args)throws Exception{
+    public static void multiplayerMenu(String[] args, Joueur player)throws Exception{
         System.out.println("---Multiplayer---");
         //joueur 1
         System.out.println("Joueur 1, Entre un nom : ");
@@ -125,7 +124,7 @@ public class App{
         String color = scanner.nextLine();
         System.out.println("Choisis un symbole");
         String logo = scanner.nextLine();
-        Joueur joueur1 = new Joueur(nom, color, logo);
+        player = new Joueur(nom, color, logo);
         //Joueur 2
         System.out.println("Joueur 2, Entre un nom : ");
         String nom2 = scanner.nextLine();
@@ -139,41 +138,64 @@ public class App{
         String color2 = scanner.nextLine();
         System.out.println("Choisis un symbole");
         String logo2 = scanner.nextLine();
-        Joueur2 joueur2 = new Joueur2(nom2, color2, logo2);
-        displayGrid(grid);
+        player2 = new Joueur2(nom2, color2, logo2);
+        inputPlayer(args, player, grid);
     }
 
     public static String[][] createGrid(){
         String[][] grid = new String[6][7];
         for (int y = 0; y < 6; y++){
             for (int x = 0; x < 7; x++){
-                grid[y][x] = "0";
+                grid[y][x] = " ";
             }
         }
         return grid;
     }
 
-    public static void displayGrid(String[][] grid){
+    public static void displayGrid(String[][] grid, String[][] playerJeton){
         for (int y = 0; y < 6; y++) {
             for (int x = 0; x < 7; x++) {
-                System.out.print("|"+ grid[y][x]);
+                System.out.print("|"+ grid[y][x] + playerJeton[y][x]);
                 System.out.print("|");
             }
             System.out.println();
         }
     }
-      
-    public void inputPlayer(String[] args, Joueur player){
+    public static void gameStart(Joueur player, String[][] playerJeton){
+        while(true){
+            displayGrid(grid, playerJeton);
+            inputPlayer(player, grid);
+        }
+    }
+
+    public static void inputPlayer(Joueur player, String[][] playerJeton){
         while(true){
             System.out.println(player.getNom()+ "Entrez une valeur : ");
             if(scanner.hasNextInt()){
                 int inputPlayer1 = scanner.nextInt()-1;
-                if(inputPlayer1 < 1 || inputPlayer1 > 7 );
-                    System.out.println("Entre un chiffre entre 1 et 7");
-            }else{
-                
+                if(inputPlayer1 < 0 || inputPlayer1 > 6 ){
+                    System.out.println("Entrez un chiffre entre 1 et 7");
+                }else{
+                    playerMove(inputPlayer1, grid, player);
+                    displayGrid(grid, playerJeton);
+                }
+            } else {
+                System.out.println("Entrez un chiffre valide : ");
+                scanner.next();
             }
         }
     }
+    public static void playerMove(int inputPlayer1, String[][] grid, Joueur player) {
+        // loop through the rows starting from the bottom
+        for (int y = grid.length - 1; y >= 0; y--) {
+            // check if the current cell is empty
+            if (grid[y][inputPlayer1].equals(" ")) {
+                // update the cell with the player's symbol or color
+                grid[y][inputPlayer1] = player.getSymboleCouleur();
+                break;
+            }
+        }
+    }
+    
     
 }

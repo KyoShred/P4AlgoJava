@@ -4,8 +4,8 @@ public class Joueur {
     // Attributs de la classe Joueur (nom, couleur, symbole) 
     private String nom;
     private String couleur;
-    private  String symbole;
-    private static String joueurColorSymb;
+    private String symbole;
+    private String joueurColorSymb;
 
     // Constructeur de la classe Joueur
     public Joueur(String nom, String couleur, String symbole) {
@@ -32,32 +32,23 @@ public class Joueur {
         this.symbole = symbole; // setter symbole de la classe Joueur
     }
     public void setSymboleCouleur(String Symbole) {
-        String symbole = this.getSymbole();
-        String couleur = this.getCouleur();
-        int color = Integer.parseInt(couleur);
-        switch (color){
-            case 1:
-            Joueur.joueurColorSymb = "\033[31m" + symbole + "\033[0m";
-                break;
-            case 2:
-            Joueur.joueurColorSymb = "\033[32m" + symbole + "\033[0m";
-                break;
-            case 3:
-            Joueur.joueurColorSymb = "\033[33m" + symbole + "\033[0m";
-                break;
-            case 4:
-            Joueur.joueurColorSymb = "\033[34m" + symbole + "\033[0m";
-                break;
-            case 5:
-            Joueur.joueurColorSymb = "\033[35m" + symbole + "\033[0m";
-                break;
-            case 6:
-            Joueur.joueurColorSymb = "\033[36m" + symbole + "\033[0m";
-                break;
-            
+        if(this.couleur.equals("1")){
+            this.joueurColorSymb = "\033[31m" + symbole + "\033[0m";
+        } else if (this.couleur.equals("2")){
+            this.joueurColorSymb = "\033[32m" + symbole + "\033[0m";
+        } else if (this.couleur.equals("3")){
+            this.joueurColorSymb = "\033[33m" + symbole + "\033[0m";
+        } else if (this.couleur.equals("4")){
+            this.joueurColorSymb = "\033[34m" + symbole + "\033[0m";
+        } else if (this.couleur.equals("5")){
+            this.joueurColorSymb = "\033[35m" + symbole + "\033[0m";
+        } else if (this.couleur.equals("6")){
+            this.joueurColorSymb = "\033[36m" + symbole + "\033[0m";
+        } else{
+            this.joueurColorSymb = symbole;
         }
     }
-    public static String getSymboleCouleur () {
+    public String getSymboleCouleur () {
         return joueurColorSymb;
     }
 }
