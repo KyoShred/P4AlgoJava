@@ -1,70 +1,96 @@
 package model;
 
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.BufferedWriter;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.util.ArrayList;
 
-
-public class Score{
-    // propriété privée pour stocker le score
+public class Score {
     private int score;
-    // propriété privée pour stocker l'objet Joueur
     private Joueur joueur;
 
-    // méthode pour récupérer l'objet Joueur
-    public Joueur getJoueur () {
-        return joueur;
+    public Score() {
     }
 
-    // méthode pour définir l'objet Joueur
-    public void setJoueur (Joueur joueur) {
-        this.joueur = joueur;
-    }
-
-    // méthode pour récupérer la valeur du score
-    public int getScore () {
+    // Score =======================================================================================
+    // ============================================================================================
+    public int getScore() {
         return score;
     }
 
-    // méthode pour définir la valeur du score
-    public void setScore (int score) {
+    public void setScore(int score) {
         this.score = score;
     }
-    // méthode pour afficher le score
-    @Override
-    public String toString() {
-        return "Score [joueur=" + joueur + ", score=" + score + "]";
+    // ============================================================================================
+    // ============================================================================================
+
+
+
+
+    // Joueur =====================================================================================
+    // ============================================================================================
+    public Joueur getJoueur() {
+        return joueur;
     }
 
-    // méthode pour enregistrer le score dans un fichier texte csv
-    public void saveScore() {
+    public void setJoueur(Joueur joueur) {
+        this.joueur = joueur;
+    }
+    // ============================================================================================
+    // ============================================================================================
+
+    
+    
+
+
+    // Lister =====================================================================================
+    // ============================================================================================
+    public static ArrayList<Score> creerListe() {
+        ArrayList<Score> list = new ArrayList<>();
         try {
-            FileWriter fw = new FileWriter("score.csv", true);
-            BufferedWriter bw = new BufferedWriter(fw);
-            bw.write(joueur.getNom() + "," + score);
-            bw.newLine();
-            bw.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-            System.out.println("Erreur lors de l'écriture du fichier");
+            BufferedReader br = new BufferedReader(new FileReader("src/top10.csv"));
+            String line = br.readLine();
+            while (line != null) {
+                String[] data = line.split(";");
+                Score score = new Score();
+                Joueur joueur = new Joueur(line, null, null);
+                joueur.setNom(data[0]);
+                score.setJoueur(joueur);
+                score.setScore(Integer.valueOf(data[1]));
+                list.add(score);
+                line = br.readLine();
+            }
+            br.close();
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
         }
-        //Affichage du score du joueur à l'écran et fermeture du programme
-        System.out.println("Le score du joueur " + this.joueur + " est de " + this.score);
+        return list;
     }
 
-    // méthode pour efffacer tout les score dans le fichier texte csv
-
-    public void deleteScore() {
-        try {
-            FileWriter fw = new FileWriter("score.csv", false);
-            BufferedWriter bw = new BufferedWriter(fw);
-            bw.write("");
-            bw.newLine();
-            bw.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-            System.out.println("Erreur lorsque tu effaces le fichier");
+    public static ArrayList<Score> listeOrdre() {
+        ArrayList<Score> list = creerListe();
+        for (int i = 0; i < list.size(); i++) {
+            for (int j = i + 1; j < list.size(); j++) {
+                if (list.get(i).getScore() > list.get(j).getScore()) {
+                    Score temp = list.get(i);
+                    list.set(i, list.get(j));
+                    list.set(j, temp);
+                }
+            }
         }
+        return list;
     }
 
+    public static ArrayList<Score> supprListe() {
+        ArrayList<Score> list = creerListe();
+        for (int i = 0; i < list.size(); i++) {
+            for (int j = i + 1; j < list.size(); j++) {
+                if (list.get(i).getScore() > list.get(j).getScore()) {
+                    Score temp = list.get(i);
+                    list.set(i, list.get(j));
+                    list.set(j, temp);
+                }
+            }
+        }
+        return list;
+    }
 }

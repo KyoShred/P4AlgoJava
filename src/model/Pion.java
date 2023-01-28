@@ -1,21 +1,19 @@
 package model;
 
-
 public class Pion {
 
-    private Joueur Joueur; // propriété privée 
+    private Joueur joueur;
 
     public Pion(model.Joueur joueur) {
-        // surement un this
-        this.Joueur = joueur; // constructeur
+        this.joueur = joueur;
     }
+
     public Joueur getJoueur() {
-        return Joueur; // getter
+        return joueur;
     }
 
     public void setJoueur(Joueur joueur) {
-        // surement un this
-        this.Joueur = joueur; // setter
+        this.joueur = joueur;
     }
 
 }
