@@ -161,6 +161,7 @@ public class App{
             System.out.println();
         }
     }
+
     public static void gameStart(Joueur player, String[][] playerJeton){
         while(true){
             displayGrid(grid, playerJeton);
@@ -185,6 +186,7 @@ public class App{
             }
         }
     }
+    
     public static void playerMove(int inputPlayer1, String[][] grid, Joueur player) {
         // loop through the rows starting from the bottom
         for (int y = grid.length - 1; y >= 0; y--) {
