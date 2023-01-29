@@ -39,7 +39,7 @@ public class App {
         menus.add("\n-- MENU PUISSANCE 4 --");
         menus.add("1- Singleplayer");
         menus.add("2- Multiplayer");
-        menus.add("3- top 10");
+        menus.add("3- Afficher top 10");
         menus.add("3- Quit");
         for (String menu : menus) {
             System.out.println(menu);
