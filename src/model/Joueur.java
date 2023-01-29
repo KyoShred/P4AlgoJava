@@ -32,8 +32,8 @@ public class Joueur {
         Joueur.symbole = symbole; // setter symbole de la classe Joueur
     }
     public void setSymboleCouleur(String Symbole) {
-        String symbole = this.getSymbole();
-        String couleur = couleur;
+        String symbole = Joueur.symbole;
+        String couleur = this.couleur;
         int color = Integer.parseInt(couleur);
         switch (color){
             case 1:
