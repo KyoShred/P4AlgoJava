@@ -1,3 +1,9 @@
+Lucas SALAÜN Scrum Master
+Baptiste GRIMALDI
+Paul RIVALLIN
+Nabil DAADAA
+
+
 # Projet ALGO - JAVA - Puissance 4 (le vrai)
 
 # I- Sujet
