@@ -1,24 +1,28 @@
 import java.util.Scanner;
 import java.util.Arrays;
-
-
+import java.util.Random;
+import model.Joueur;
+import model.Joueur2;
 
 public class App {
 
-    
-    public static void main (String[] args) throws Exception{
-        
+    private static Scanner scanner = new Scanner(System.in);
+    private static boolean SinglePlayer = false;
+    private static boolean multiplayer = false;
+    public static void main(String[] args) throws Exception {
+
         int userchoice;
         do {
             printMenu();
             userchoice = getMenuChoice();
-            switch (userchoice){
+            switch (userchoice) {
                 case 1:
-                    grid(args);
+                    SinglePlayer = true;
+                    singleplayerMenu(args);
                     break;
                 case 2:
-                    System.out.println("multiplayer");
-
+                    multiplayer = true;
+                    multiplayerMenu(args);
                     break;
                 case 3:
                     System.out.println("display");
@@ -26,19 +30,102 @@ public class App {
                     break;
                 case 4:
                     System.out.println("Exiting...");
-                    break;
+                    return;
                 default:
                     System.out.println("Invalid Input");
 
             }
         } while (userchoice != 5);
     }
-    public static void printMenu(){
+
+    public static void printMenu() {
         System.out.println("--Menu--");
-        System.out.println("1. SinglePlayer");
-        System.out.println("2. Multiplayer");
-        System.out.println("3. Display Top 10");
-        System.out.println("4. Exit");
+        System.out.println("1- Singleplayer");
+        System.out.println("2- Multiplayer");
+        System.out.println("3- Display Top 10");
+        System.out.println("4- Exit");
+    }
+
+    public static void singleplayerMenu(String[] args) throws Exception {
+        System.out.println("---Singleplayer---");
+        System.out.println("Joueur 1, Entre un nom : ");
+        String nom = scanner.nextLine();
+        System.out.println("Player Color");
+        System.out.println("1- \033[31mRouge\033[0m");
+        System.out.println("2- \033[32mVert\033[0m");
+        System.out.println("3- \033[33mJaune\033[0m");
+        System.out.println("4- \033[34mBleu\033[0m");
+        System.out.println("5- \033[35mViolet\033[0m");
+        System.out.println("6- \033[36mCyan\033[0m");
+        System.out.println("pick your color : ");
+        if (scanner.hasNextLine()) {
+            String color = scanner.nextLine();
+            System.out.println("Choisis un symbole :");
+            if (scanner.hasNextLine()) {
+                String logo = scanner.nextLine();
+                Joueur joueur = new Joueur(nom, color, logo);
+                System.out.println("1- Niveau 1");
+                System.out.println("2- Niveau 2");
+                System.out.println("3- Niveau 3");
+                System.out.println("4- Niveau 4");
+                System.out.println(joueur.getNom() + ", Choisis le niveau de difficulté");
+                while(true){
+                    if (scanner.hasNextInt()) {
+                        int difficultyLvl = scanner.nextInt();
+                        switch (difficultyLvl) {
+                            case 1:
+                                grid(args);
+                                break;
+                            case 2:
+                                grid(args);
+                                break;
+                            case 3:
+                                grid(args);
+                                break;
+                            case 4:
+                                grid(args);
+                                return;
+                        }
+                    } else {
+                            System.out.println("Entre un chiffre entre 1 et 4");
+                            scanner.next();
+                    }
+                }
+            }
+        }
+    }
+    
+    public static void multiplayerMenu(String[] args)throws Exception{
+        System.out.println("---Multiplayer---");
+        //joueur 1
+        System.out.println("Joueur 1, Entre un nom : ");
+        String nom = scanner.nextLine();
+        System.out.println("pick your color : ");
+        System.out.println("1. \033[31mRouge\033[0m");
+        System.out.println("2. \033[32mVert\033[0m");
+        System.out.println("3. \033[33mJaune\033[0m");
+        System.out.println("4. \033[34mBleu\033[0m");
+        System.out.println("5. \033[35mViolet\033[0m");
+        System.out.println("6. \033[36mCyan\033[0m");
+        String color = scanner.nextLine();
+        System.out.println("Choisis un symbole");
+        String logo = scanner.nextLine();
+        Joueur joueur1 = new Joueur(nom, color, logo);
+        //Joueur 2
+        System.out.println("Joueur 2, Entre un nom : ");
+        String nom2 = scanner.nextLine();
+        System.out.println("pick your color : ");
+        System.out.println("1. \033[31mRouge\033[0m");
+        System.out.println("2. \033[32mVert\033[0m");
+        System.out.println("3. \033[33mJaune\033[0m");
+        System.out.println("4. \033[34mBleu\033[0m");
+        System.out.println("5. \033[35mViolet\033[0m");
+        System.out.println("6. \033[36mCyan\033[0m");
+        String color2 = scanner.nextLine();
+        System.out.println("Choisis un symbole");
+        String logo2 = scanner.nextLine();
+        Joueur2 joueur2 = new Joueur2(nom2, color2, logo2);
+        grid(args);
     }
 
     public static int getMenuChoice() {
@@ -47,382 +134,452 @@ public class App {
         int choice = scanner.nextInt();
         return choice;
     }
+
     public static void closeScanner(Scanner scanner) {
         scanner.close();
     }
-    
+    public static int ia1() {
+        Random random = new Random();
+        return random.nextInt(7) + 1;
+    }
     public static void grid(String[] args) throws Exception {
 
-        String[] ligne1 = {" "," "," "," "," "," "," "};
-        String[] ligne2 = {" "," "," "," "," "," "," "};
-        String[] ligne3 = {" "," "," "," "," "," "," "};
-        String[] ligne4 = {" "," "," "," "," "," "," "};
-        String[] ligne5 = {" "," "," "," "," "," "," "};
-        String[] ligne6 = {" "," "," "," "," "," "," "};
+        String[] ligneSuperStarStart =  {"*","*","*","*","*","*","*","*","*"};
+        String[] ligne1 =               {"*"," "," "," "," "," "," "," ","*"};
+        String[] ligne2 =               {"*"," "," "," "," "," "," "," ","*"};
+        String[] ligne3 =               {"*"," "," "," "," "," "," "," ","*"};
+        String[] ligne4 =               {"*"," "," "," "," "," "," "," ","*"};
+        String[] ligne5 =               {"*"," "," "," "," "," "," "," ","*"};
+        String[] ligne6 =               {"*"," "," "," "," "," "," "," ","*"};
+        String[] ligneSuperEnd =        {"*","*","*","*","*","*","*","*","*"};
 
-        String[][] lignes = {ligne1, ligne2, ligne3, ligne4, ligne5, ligne6};
-        execTab(ligne1,ligne2,ligne3,ligne4,ligne5,ligne6);
 
-        int recupligne = 3;
+        String[][] lignes = {ligneSuperStarStart,ligne1, ligne2, ligne3, ligne4, ligne5, ligne6,ligneSuperEnd};
+        execTab(ligneSuperStarStart,ligne1,ligne2,ligne3,ligne4,ligne5,ligne6,ligneSuperEnd);
 
-        Scanner scanner = new Scanner(System.in);
+        int recupligne = 1000;
+
         boolean w = true;
         while (w) {
-
-            for(int u =0;u<42;u++){
-
-                System.out.print("Entrez une valeur : ");
-                int nombreEntier = scanner.nextInt()-1;
-                joueur1(lignes, nombreEntier,recupligne);
-                execTab(ligne1,ligne2,ligne3,ligne4,ligne5,ligne6);
-
-                //Rajout joueur 2 plus modif tout en bas de nombreEntier en nombreEnti changer les valeurs;
-
-                System.out.print("Entrez une valeur : ");
-                int nombreEntie = scanner.nextInt()-1;
-                joueur2(lignes, nombreEntie ,recupligne);
-                execTab(ligne1,ligne2,ligne3,ligne4,ligne5,ligne6);
-
-                if(nombreEntier == 10){
-                    w = false;
+            for (int u = 0; u < 42; u++) {
+                while (true) {
+                    System.out.print("Joueur 1, Entrez une valeur : ");
+                    if (scanner.hasNextInt()) {
+                        int colonneJoueur1 = scanner.nextInt();
+                        if (colonneJoueur1 < 1 || colonneJoueur1 > 7) {
+                            System.out.println("Entre un chiffre entre 1 et 7");
+                        } else {
+                            joueur1(lignes, colonneJoueur1, recupligne);
+                            execTab(ligneSuperStarStart,ligne1,ligne2,ligne3,ligne4,ligne5,ligne6,ligneSuperEnd);
+                            break;
+                        }
+                    } else {
+                        System.out.println("Entre un chiffre valide : ");
+                        scanner.next();
+                    }
                 }
-
+                
+                    // Rajout joueur 2 plus modif tout en bas de colonneJoueur1 en nombreEnti
+                    // changer les valeurs;
+                    if (SinglePlayer == true){
+                        int colonneJoueur2 = ia1();
+                        joueur2(lignes, colonneJoueur2, recupligne);
+                        execTab(ligneSuperStarStart,ligne1,ligne2,ligne3,ligne4,ligne5,ligne6,ligneSuperEnd);
+                        break;
+                    }else{
+                        while (true) {
+                        System.out.print("Joueur 2, Entrez une valeur : ");
+                        if (scanner.hasNextInt()) {
+                            int colonneJoueur2 = scanner.nextInt();
+                            if (colonneJoueur2 < 1 || colonneJoueur2 > 7) {
+                                System.out.println("Entre un chiffre entre 1 et 7");
+                            } else {
+                                joueur2(lignes, colonneJoueur2, recupligne);
+                                execTab(ligneSuperStarStart,ligne1,ligne2,ligne3,ligne4,ligne5,ligne6,ligneSuperEnd);
+                                break;
+                            }
+                        } else {
+                            System.out.println("Entre un chiffre valide : ");
+                            scanner.next();
+                        }
+                    }
+                }
             }
-
         }
-        scanner.close();
         System.out.println("Done");
     }
 
-    public static void execTab(String[] ligne1, String[] ligne2, String[] ligne3, String[] ligne4, String[] ligne5, String[] ligne6) {
+    public static void execTab(String[] ligneSuperStarStart,String[] ligne1, String[] ligne2, String[] ligne3, String[] ligne4, String[] ligne5, String[] ligne6,String[] ligneSuperEnd) {
+        System.out.println(Arrays.toString(ligneSuperStarStart));
         System.out.println(Arrays.toString(ligne1));
         System.out.println(Arrays.toString(ligne2));
         System.out.println(Arrays.toString(ligne3));
         System.out.println(Arrays.toString(ligne4));
         System.out.println(Arrays.toString(ligne5));
         System.out.println(Arrays.toString(ligne6));
+        System.out.println(Arrays.toString(ligneSuperEnd));
     }
 
-    public static void joueur1(String[][] lignes,int nombreEntier, int recupligne) throws Exception {
-        for (int i = 5; i >= 0; i--) {  
-            if(lignes[i][nombreEntier] == " " && lignes[i][nombreEntier] != "@" && lignes[i][nombreEntier] != "="){
-                lignes[i][nombreEntier] = "@";
+    public static void joueur1(String[][] lignes, int colonneJoueur1, int recupligne) throws Exception {
+        for (int i = 6; i >= 0; i--) {
+            if (lignes[i][colonneJoueur1] == " " && lignes[i][colonneJoueur1] != "@"
+                    && lignes[i][colonneJoueur1] != "=") {
+                lignes[i][colonneJoueur1] = "\033[31m"+Joueur.getSymbole()+"\033[0m";
                 recupligne = i;
-                detectWin(lignes, nombreEntier, recupligne);
-
+                int playercolumn = colonneJoueur1;
+                detectWin1(lignes, playercolumn, recupligne);
                 break;
             }
         }
     }
 
-    public static void joueur2(String[][] lignes,int nombreEntier,int recupligne) throws Exception{
-        for (int a = 5; a > 0; a--) {
-            if(lignes[a][nombreEntier] == " " && lignes[a][nombreEntier] != "@" && lignes[a][nombreEntier] != "="){
-                lignes[a][nombreEntier] = "=";
+    public static void joueur2(String[][] lignes, int colonneJoueur2, int recupligne) throws Exception {
+        for (int a = 6; a > 0; a--) {
+            if (lignes[a][colonneJoueur2] == " " && lignes[a][colonneJoueur2] != "@"
+                    && lignes[a][colonneJoueur2] != "=") {
+                        if (multiplayer == true){
+                            lignes[a][colonneJoueur2] = "\033[33m"+Joueur2.getSymboleCouleur()+"\033[0m";
+                        }else {
+                            lignes[a][colonneJoueur2] = "\033[33m=\033[0m";
+                        }
                 recupligne = a;
-                detectWin(lignes, nombreEntier, recupligne);
+                int playercolumn = colonneJoueur2;
+                detectWin1(lignes, playercolumn, recupligne);
                 break;
             }
         }
     }
-
 //--------------------------------------
 
-    public static void detectWin(String[][]lignes, int nombreEntier,int recupligne)throws Exception{
-
-        int checkWinExistance = 0;
-
-        String caseCheck = lignes[recupligne][nombreEntier];
-        int checkIncr = 1;
-        String counterWin;
-
-        System.out.println(nombreEntier);
-
-        // try{
-        //     String midDroite = lignes[recupligne][nombreEntier+1+checkWinExistance];
-        // }catch(Exception e){
-
-        // }
-
-
-        
-        // String diagHautGauche = lignes[recupligne-1][nombreEntier-1];
-        // String diagHautDroite = lignes[recupligne-1][nombreEntier+1];
-
-
-        // String midGauche = lignes[recupligne][nombreEntier-1];
-
-        
-        // String diagBasGauche = lignes[recupligne+1][nombreEntier-1];
-        // String badMid = lignes[recupligne+1][nombreEntier];
-        // String diagBasDroite = lignes[recupligne+1][nombreEntier+1];
-
-        if(nombreEntier !=6){
-
-            String midDroite = lignes[recupligne][nombreEntier+1+checkWinExistance];
-
-            if (recupligne > 2 && nombreEntier < 4){
-            
-                for(int v =0 ;v<3;v++){
-                    checkWinExistance++;
-                    if(midDroite == caseCheck){
-                        System.out.println("Vous avez gagné !");
+    public static void detectWin1(String[][]lignes, int playercolumn,int recupligne)throws Exception{
+        String symbole = lignes[recupligne][playercolumn];
+        int numberOfCheck =0;
+        int nombreALaSuite =1;
+        String midDroite = lignes[recupligne][playercolumn+1+(numberOfCheck)];
+        String diagHautDroite = lignes[recupligne-1+(-numberOfCheck)][playercolumn+1+(numberOfCheck)];
+        String diagHautGauche = lignes[recupligne-1][playercolumn-1];
+        String midGauche = lignes[recupligne][playercolumn-1];
+        String diagBasGauche = lignes[recupligne+1][playercolumn-1];
+        String badMid = lignes[recupligne+1][playercolumn];
+        String diagBasDroite = lignes[recupligne+1][playercolumn+1];
+        //bas gauche
+        if(recupligne > 3 && playercolumn < 4){
+            numberOfCheck =0;
+            nombreALaSuite =1;
+            for(int v = 0;v<3;v++){
+                if(midDroite.equals(symbole)){
+                    nombreALaSuite++;
+                    // System.out.println(midDroite);
+                    if(nombreALaSuite == 4){
+                        System.out.println("Vous avez gagné!");
                         return;
                     }
-    
+                    numberOfCheck++;
                 }
-                System.out.println(midDroite);
             }
-
+            numberOfCheck =0;
+            nombreALaSuite =1;
+            for(int v = 0;v<3;v++){
+                if(diagHautDroite.equals(symbole)){
+                    nombreALaSuite++;
+                    System.out.println(diagHautDroite);
+                    if(nombreALaSuite == 4){
+                        System.out.println("Vous avez gagné!");
+                        return;
+                    }
+                    numberOfCheck++;
+                }
+            }
+            numberOfCheck =0;
+            nombreALaSuite =1;
         }
-
-
-            
-            
-            
-    }
-        //bas droite grille
-        // if (recupligne >= 3 && nombreEntier >= 3){
-
-
-        // }
-        //haut gauche grille
-        // if (recupligne <= 2 && nombreEntier <= 3){
-
-        // }
-        //haut droit grille
-        // if (recupligne <= 2 && nombreEntier >= 3){
-
-        // }
-        
-            
-
-
-                // for(int c=1;c<3;c++){
-
-                //     if(diagHautGauche == caseCheck){
-
-                //         diagHautGauche = lignes[recupligne-1-c][nombreEntier-1-c];
+        //bas droit
+        if(recupligne > 3 && playercolumn > 2){
+            numberOfCheck =0;
+            nombreALaSuite =1;
+            for(int v = 0;v<3;v++){
+                if(midGauche.equals(symbole)){
+                    nombreALaSuite++;
+                    System.out.println(midGauche);
+                    if(nombreALaSuite == 4){
+                        System.out.println("Vous avez gagné!");
+                        return;
+                    }
+                    numberOfCheck++;
+                }
+            }
+            numberOfCheck =0;
+            nombreALaSuite =1;
+            for(int v = 0;v<3;v++){
+                if(diagHautGauche.equals(symbole)){
+                    nombreALaSuite++;
+                    System.out.println(diagHautGauche);
+                    if(nombreALaSuite == 4){
+                        System.out.println("Vous avez gagné!");
+                        return;
+                    }
+                    numberOfCheck++;
+                }
+            }
+        }
+        //haut droit
+        if(recupligne < 4 && playercolumn > 2){
+            numberOfCheck =0;
+            nombreALaSuite =1;
+            for(int v = 0;v<3;v++){
+                if(midGauche.equals(symbole)){
+                    nombreALaSuite++;
+                    System.out.println(midGauche);
+                    if(nombreALaSuite == 4){
+                        System.out.println("Vous avez gagné!");
+                        return;
+                    }
+                    numberOfCheck++;
+                }
+            }
+            numberOfCheck =0;
+            nombreALaSuite =1;
+            for(int v = 0;v<3;v++){
+                if(diagBasGauche.equals(symbole)){
+                    nombreALaSuite++;
+                    System.out.println(diagBasGauche);
+                    if(nombreALaSuite == 4){
+                        System.out.println("Vous avez gagné!");
+                        return;
+                    }
+                    numberOfCheck++;
+                }
+            }
+            numberOfCheck =0;
+            nombreALaSuite =1;
+            for(int v = 0;v<3;v++){
+                if(badMid.equals(symbole)){
+                    nombreALaSuite++;
+                    System.out.println(badMid);
+                    if(nombreALaSuite == 4){
+                        System.out.println("Vous avez gagné!");
+                        return;
+                    }
+                    numberOfCheck++;
+                }
+            }
+        }
+        //haut gauche
+        if(recupligne < 4 && playercolumn < 4){
+            numberOfCheck =0;
+            nombreALaSuite =1;
+            for(int v = 0;v<3;v++){
+                if(midDroite.equals(symbole)){
+                    nombreALaSuite++;
+                    // System.out.println(midDroite);
+                    if(nombreALaSuite == 4){
+                        System.out.println("Vous avez gagné!");
+                        return;
+                    }else {
+                        if (nombreALaSuite == 3){
+                            System.out.println("bot saved");
+                            // recupere nombrealasuite = 3, recupligne si supérieur a 1 donc save et colonnejoueur (centre du triple) just check +2 ou -2 selon la position
+                            
+                            return;
+                        }
                         
-                //         if(c == 3){
-                //             System.out.println("Victoire de"+caseCheck);
-                //         }
-                //     }else{
-
+                    }
+                    numberOfCheck++;
+                }
+            }
+            numberOfCheck =0;
+            nombreALaSuite =1;
+            for(int v = 0;v<3;v++){
+                if(badMid.equals(symbole)){
+                    nombreALaSuite++;
+                    System.out.println(badMid);
+                    if(nombreALaSuite == 4){
+                        System.out.println("Vous avez gagné!");
+                        return;
+                    }
+                    numberOfCheck++;
+                }
+            }
+            numberOfCheck =0;
+            nombreALaSuite =1;
+            for(int v = 0;v<3;v++){
+                if(diagBasDroite.equals(symbole)){
+                    nombreALaSuite++;
+                    System.out.println(diagBasDroite);
+                    if(nombreALaSuite == 4){
+                        System.out.println("Vous avez gagné!");
+                        return;
+                    }
+                    numberOfCheck++;
+                }
+            }
+        }
+    }
+    public static void detectWin2(String[][]lignes, int colonneJoueur2,int recupligne)throws Exception{
+        String symbole = lignes[recupligne][colonneJoueur2];
+        int numberOfCheck =0;
+        int nombreALaSuite =1;
+        String midDroite = lignes[recupligne][colonneJoueur2+1+(numberOfCheck)];
+        String diagHautDroite = lignes[recupligne-1+(-numberOfCheck)][colonneJoueur2+1+(numberOfCheck)];
+        String diagHautGauche = lignes[recupligne-1][colonneJoueur2-1];
+        String midGauche = lignes[recupligne][colonneJoueur2-1];
+        String diagBasGauche = lignes[recupligne+1][colonneJoueur2-1];
+        String badMid = lignes[recupligne+1][colonneJoueur2];
+        String diagBasDroite = lignes[recupligne+1][colonneJoueur2+1];
+        //bas gauche
+        if(recupligne > 3 && colonneJoueur2 < 4){
+            numberOfCheck =0;
+            nombreALaSuite =1;
+            for(int v = 0;v<3;v++){
+                if(midDroite.equals(symbole)){
+                    nombreALaSuite++;
+                    // System.out.println(midDroite);
+                    if(nombreALaSuite == 4){
+                        System.out.println("Vous avez gagné!");
+                        break;
+                    }
+                    numberOfCheck++;
+                }
+            }
+            numberOfCheck =0;
+            nombreALaSuite =1;
+            for(int v = 0;v<3;v++){
+                if(diagHautDroite.equals(symbole)){
+                    nombreALaSuite++;
+                    System.out.println(diagHautDroite);
+                    if(nombreALaSuite == 4){
+                        System.out.println("Vous avez gagné!");
+                        break;
+                    }
+                    numberOfCheck++;
+                }
+            }
+            numberOfCheck =0;
+            nombreALaSuite =1;
+        }
+        //bas droit
+        if(recupligne > 3 && colonneJoueur2 > 2){
+            numberOfCheck =0;
+            nombreALaSuite =1;
+            for(int v = 0;v<3;v++){
+                if(midGauche.equals(symbole)){
+                    nombreALaSuite++;
+                    System.out.println(midGauche);
+                    if(nombreALaSuite == 4){
+                        System.out.println("Vous avez gagné!");
+                        break;
+                    }
+                    numberOfCheck++;
+                }
+            }
+            numberOfCheck =0;
+            nombreALaSuite =1;
+            for(int v = 0;v<3;v++){
+                if(diagHautGauche.equals(symbole)){
+                    nombreALaSuite++;
+                    System.out.println(diagHautGauche);
+                    if(nombreALaSuite == 4){
+                        System.out.println("Vous avez gagné!");
+                        break;
+                    }
+                    numberOfCheck++;
+                }
+            }
+        }
+        //haut droit
+        if(recupligne < 4 && colonneJoueur2 > 2){
+            numberOfCheck =0;
+            nombreALaSuite =1;
+            for(int v = 0;v<3;v++){
+                if(midGauche.equals(symbole)){
+                    nombreALaSuite++;
+                    System.out.println(midGauche);
+                    if(nombreALaSuite == 4){
+                        System.out.println("Vous avez gagné!");
+                        break;
+                    }
+                    numberOfCheck++;
+                }
+            }
+            numberOfCheck =0;
+            nombreALaSuite =1;
+            for(int v = 0;v<3;v++){
+                if(diagBasGauche.equals(symbole)){
+                    nombreALaSuite++;
+                    System.out.println(diagBasGauche);
+                    if(nombreALaSuite == 4){
+                        System.out.println("Vous avez gagné!");
+                        break;
+                    }
+                    numberOfCheck++;
+                }
+            }
+            numberOfCheck =0;
+            nombreALaSuite =1;
+            for(int v = 0;v<3;v++){
+                if(badMid.equals(symbole)){
+                    nombreALaSuite++;
+                    System.out.println(badMid);
+                    if(nombreALaSuite == 4){
+                        System.out.println("Vous avez gagné!");
+                        break;
+                    }
+                    numberOfCheck++;
+                }
+            }
+        }
+        //haut gauche
+        if(recupligne < 4 && colonneJoueur2 < 4){
+            numberOfCheck =0;
+            nombreALaSuite =1;
+            for(int v = 0;v<3;v++){
+                if(midDroite.equals(symbole)){
+                    nombreALaSuite++;
+                    // System.out.println(midDroite);
+                    if(nombreALaSuite == 4){
+                        System.out.println("Vous avez gagné!");
+                        break;
+                    }else {
+                        if (nombreALaSuite == 3){
+                            System.out.println("bot saved");
+                            // recupere nombrealasuite = 3, recupligne si supérieur a 1 donc save et colonnejoueur (centre du triple) just check +2 ou -2 selon la position
+                            
+                            break;
+                        }
                         
-                //         break;
-                //     }
-
-                // }
-            
-
-        
-}
-
-
-
-
-
-
-/*
-import java.util.Scanner;
-public class Main {
-    static int size;
-    static int select = 0;
-    static int turn = 0;
-    static boolean winner = false;
-
-    private static void displayBoard(char[][] board) {
-        for (int j = 0; j < board.length; j++) {
-            for (int i = 0; i < board.length; i++) {
-                //deleting last
-                if (i == board[j].length -1) System.out.print(board[j][i]);
-                else System.out.print( board[j][i] + " | ");
-            }
-            System.out.println();
-        }
-    }
-    static int winplay1 = 0;
-
-    public static void winCheck(char player1, char[][] board){
-        for (int j = 0; j < board.length; j++) {
-            for (int i = 0; i < board.length - 2; i++) {
-                if (board[j][i] == player1) {
-                    if (board[j][i + 1] == player1) {
-                        if (board[j][i + 2] == player1) {
-                            winner = true;
-                            System.out.println("Player 1 win !");
-                        }
                     }
+                    numberOfCheck++;
                 }
             }
-        }
-    }
-    public static void winCheck3(char player2, char[][] board){
-        for (int j = 0; j < board.length; j++) {
-            for (int i = 0; i < board.length - 2; i++) {
-                if (board[j][i] == player2) {
-                    if (board[j][i + 1] == player2) {
-                        if (board[j][i + 2] == player2) {
-                            winner = true;
-                            System.out.println("Player 2 win !");
-                        }
+            numberOfCheck =0;
+            nombreALaSuite =1;
+            for(int v = 0;v<3;v++){
+                if(badMid.equals(symbole)){
+                    nombreALaSuite++;
+                    System.out.println(badMid);
+                    if(nombreALaSuite == 4){
+                        System.out.println("Vous avez gagné!");
+                        break;
                     }
+                    numberOfCheck++;
                 }
             }
-        }
-    }
-    public static void winCheck4(char player2, char[][] board){
-        for (int j = 0; j < board.length - 2; j++) {
-            for (int i = 0; i < board.length; i++) {
-                if (board[j][i] == player2) {
-                    if (board[j + 1][i] == player2) {
-                        if (board[j + 2][i] == player2) {
-                            winner = true;
-                            System.out.println("Player 2 win !");
-                        }
+            numberOfCheck =0;
+            nombreALaSuite =1;
+            for(int v = 0;v<3;v++){
+                if(diagBasDroite.equals(symbole)){
+                    nombreALaSuite++;
+                    System.out.println(diagBasDroite);
+                    if(nombreALaSuite == 4){
+                        System.out.println("Vous avez gagné!");
+                        break;
                     }
+                    numberOfCheck++;
                 }
             }
-        }
-    }
-    public static void winCheck2(char player1, char[][] board){
-        for (int j = 0; j < board.length - 2; j++) {
-            for (int i = 0; i < board.length; i++) {
-                if (board[j][i] == player1) {
-                    if (board[j + 1][i] == player1) {
-                        if (board[j + 2][i] == player1) {
-                            winner = true;
-                            System.out.println("Player 1 win !");
-                        }
-                    }
-                }
-            }
-        }
-    }
-    public static void winCheck6(char player1, char[][] board){
-        for (int j = 0; j < board.length - 2; j++) {
-            for (int i = 0; i < board.length - 2; i++) {
-                if (board[j][i] == player1) {
-                    if (board[j + 1][i + 1] == player1) {
-                        if (board[j + 2][i + 2] == player1) {
-                            winner = true;
-                            System.out.println("Player 1 win !");
-                        }
-                    }
-                }
-            }
-        }
-    }
-    public static void winCheck5(char player2, char[][] board){
-        for (int j = 0; j < board.length - 2; j++) {
-            for (int i = 0; i < board.length - 2; i++) {
-                if (board[j][i] == player2) {
-                    if (board[j + 1][i + 1] == player2) {
-                        if (board[j + 2][i + 2] == player2) {
-                            winner = true;
-                            System.out.println("Player 2 win !");
-                        }
-                    }
-                }
-            }
-        }
-    }
-    public static void winCheck7(char player1, char[][] board){
-        for (int j = 2; j < board.length; j++) {
-            for (int i = 0; i < board.length - 2; i++) {
-                if (board[j][i] == player1) {
-                    if (board[j - 1][i + 1] == player1) {
-                        if (board[j - 2][i + 2] == player1) {
-                            winner = true;
-                            System.out.println("Player 1 win !");
-                        }
-                    }
-                }
-            }
-        }
-    }
-    public static void winCheck8(char player2, char[][] board){
-        for (int j = 2; j < board.length; j++) {
-            for (int i = 0; i < board.length - 2; i++) {
-                if (board[j][i] == player2) {
-                    if (board[j - 1][i + 1] == player2) {
-                        if (board[j - 2][i + 2] == player2) {
-                            winner = true;
-                            System.out.println("Player 2 win !");
-                        }
-                    }
-                }
-            }
-        }
-    }
-
-    public static void main(String[] args) {
-        //ask input(board size).
-        System.out.print("Enter Size: ");
-        Scanner input = new Scanner(System.in);
-        int size = input.nextInt();
-        //Board dimension.
-        char[][] board = new char[size][size];
-        //Character inside the grid.
-        char ch = ' ';
-        //Board
-        for (int j = 0; j < size; j++){
-            for (int i = 0; i < size; i++) {
-                board[j][i] = ch;
-            }
-        }
-
-
-        displayBoard(board);
-        while (winner == false){
-            System.out.print("Enter Row between 1 & " + size + ": ");
-            int row = input.nextInt();
-            if (row <= size){
-                select = 1;
-                while (select == 1){
-                        System.out.print("Enter Column between 1 & " + size + ": ");
-                        int col = input.nextInt();
-                    if (col <= size){
-                        select = 0;
-                        if(turn == 0 && board[row - 1][col - 1] == ' '){
-                            board[row - 1][col - 1] = 'X';
-                            turn = 1;
-                            System.out.println();
-                            displayBoard(board);
-                            System.out.println();
-                            System.out.println("Other player turn");
-                        }else if(turn == 1 && board[row - 1][col - 1] == ' '){
-                            board[row - 1][col - 1] = 'O';
-                            turn = 0;
-                            System.out.println();
-                            displayBoard(board);
-                            System.out.println();
-                            System.out.println("Other player turn");
-                        }else{
-                            System.out.println();
-                            System.out.println("The spot in already taken !");
-                        }
-                    }else{
-                        System.out.println("Enter a correct column !");
-                    }
-                }
-            }else{
-                System.out.println("Enter a correct row !");
-            }
-            winCheck('X', board);
-            winCheck2('X', board);
-            winCheck3('O', board);
-            winCheck4('O', board);
-            winCheck5('O', board);
-            winCheck6('X', board);
-            winCheck7('X', board);
-            winCheck8('O', board);
         }
     }
 }
-
-*/
 
 
 
