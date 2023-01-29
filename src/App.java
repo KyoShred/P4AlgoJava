@@ -1,10 +1,8 @@
 import java.util.Scanner;
 import java.util.Arrays;
 import java.util.Random;
-
 import model.Joueur;
 import model.Joueur2;
-import model.IA1;
 
 public class App {
 
@@ -582,7 +580,6 @@ public class App {
         }
     }
 }
-
 
 
 
